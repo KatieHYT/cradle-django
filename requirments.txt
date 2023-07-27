@@ -1,0 +1,7 @@
+django
+line-bot-sdk
+openai
+tzdata
+
+#apt-get update
+#apt-get install ffmpeg
