@@ -64,7 +64,7 @@ data_dict = {
     "txt": "%petfriendly%  faherty",
 }
 
-response = requests.post(url, json=data_dict)
+response = requests.post(url, data=data_dict)
 
 # Check the response status and handle accordingly.
 if response.status_code == 200:
