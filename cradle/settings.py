@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     'linechatbot.apps.LinechatbotConfig',
     'petlover.apps.PetloverConfig',
+    "frontend.apps.FrontendConfig",
 ]
 
 MIDDLEWARE = [

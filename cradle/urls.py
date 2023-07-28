@@ -24,5 +24,6 @@ urlpatterns = [
     # add more if more applications are included
     path('linechatbot/', include('linechatbot.urls')), 
     path('petlover/', include('petlover.urls')),
+    path('', include('frontend.urls')),
 ]
 urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
