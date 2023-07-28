@@ -15,12 +15,11 @@ gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settin
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
-        #event = json.loads(request.body.decode('utf-8'))
-        prompt = request.POST.get('prompt')
-        if '%petfriendly%' in prompt:
-            reply = gpt_task_assigner.judge_store_pet_friendly(prompt)  
+        txt = request.POST.get('txt')
+        if '%petfriendly%' in txt:
+            reply = gpt_task_assigner.judge_store_pet_friendly(txt)  
         else:
-            reply = gpt_task_assigner.chat(prompt) 
+            reply = gpt_task_assigner.chat(txt) 
         
         
         return JsonResponse({

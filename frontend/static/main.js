@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     // Send the form on enter keypress and avoid if shift is pressed
-    $('#prompt').keypress(function(event) {
+    $('#storename').keypress(function(event) {
         if (event.keyCode === 13 && !event.shiftKey) {
             event.preventDefault();
             $('form').submit();
@@ -16,18 +16,18 @@ $(document).ready(function() {
     $.ajaxSetup({
         headers: { 'X-CSRFToken': csrftoken }
     });
-        // Get the prompt
-        var prompt = $('#prompt').val();
+        // Get store information, curretly only find the most matched name among  the list
+        var txt = $('#storename').val();
         var dateTime = new Date();
         var time = dateTime.toLocaleTimeString();
-        // Add the prompt to the response div
-        $('#response').append('<p>('+ time + ') <i class="bi bi-person"></i>: ' + prompt + '</p>');
-        // Clear the prompt
-        $('#prompt').val('');
+        // Add theinput msg to the response div
+        $('#response').append('<p>('+ time + ') <i class="bi bi-person"></i>: ' + txt + '</p>');
+        // Clear the store name input box
+        $('#storename').val('');
         $.ajax({
             url: 'https://76cf-140-112-41-151.ngrok-free.app/petlover/callback',
             type: 'POST',
-            data: {prompt: prompt},
+            data: {txt: txt},
             dataType: 'json',
             success: function(data) {
                 $('#response').append('<p>('+ time + ') <i class="bi bi-robot"></i>: ' + data.response + '</p>');
