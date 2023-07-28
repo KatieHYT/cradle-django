@@ -17,7 +17,7 @@ $(document).ready(function() {
         headers: { 'X-CSRFToken': csrftoken }
     });
         // Get store information, curretly only find the most matched name among  the list
-        var settings4js = {{ settings4js|safe }};
+	const url_pet_friendly = JSON.parse(document.getElementById('url_pet_friendly').textContent);
 	var store_name = $('#storename').val();
         var mode_hint = "%petfriendly%";
 	var txt = mode_hint+store_name;
@@ -28,8 +28,8 @@ $(document).ready(function() {
         // Clear the store name input box
         $('#storename').val('');
         $.ajax({
-            url: settings4js.url_pet_friendly,
-            type: 'POST',
+            url: url_pet_friendly,
+	    type: 'POST',
             data: {txt: txt},
             dataType: 'json',
             success: function(data) {
