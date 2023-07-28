@@ -10,9 +10,7 @@ from django.conf import settings
 from .pet_friendly.gpt_task_assigner import GPTTaskAssigner
 from .pet_friendly.tools import get_file_contents 
 
-#TODO(hyt): find aa proper way to load path
-openai_api_key = get_file_contents('/TOP/home/kt/API_KEY/openai')
-gpt_task_assigner = GPTTaskAssigner(openai_api_key)
+gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY)
 
 @csrf_exempt
 def callback(request):

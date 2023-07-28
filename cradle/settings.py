@@ -147,3 +147,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #TODO(kt): 
 LINE_CHANNEL_ACCESS_TOKEN = get_file_contents('/TOP/home/kt/API_KEY/line_channel_access_token_ponpontalki')
 LINE_CHANNEL_SECRET = get_file_contents('/TOP/home/kt/API_KEY/line_channel_secret_ponpontalki')
+OPENAI_API_KEY = get_file_contents('/TOP/home/kt/API_KEY/openai')

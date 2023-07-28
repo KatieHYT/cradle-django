@@ -15,10 +15,7 @@ from .pet_friendly.tools import get_file_contents
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
-
-#TODO(hyt): find aa proper way to load path
-openai_api_key = get_file_contents('/TOP/home/kt/API_KEY/openai')
-gpt_task_assigner = GPTTaskAssigner(openai_api_key)
+gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY)
 
 @csrf_exempt
 def callback(request):
