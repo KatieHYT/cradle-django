@@ -7,8 +7,8 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
-from .pet_friendly.gpt_task_assigner import GPTTaskAssigner
-from .pet_friendly.tools import get_file_contents 
+from .pet_friendly.pet_friendly.gpt_task_assigner import GPTTaskAssigner
+from .pet_friendly.pet_friendly.tools import get_file_contents 
 
 gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY)
 
