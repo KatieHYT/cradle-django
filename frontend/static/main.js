@@ -17,7 +17,8 @@ $(document).ready(function() {
         headers: { 'X-CSRFToken': csrftoken }
     });
         // Get store information, curretly only find the most matched name among  the list
-        var store_name = $('#storename').val();
+        var settings4js = {{ settings4js|safe }};
+	var store_name = $('#storename').val();
         var mode_hint = "%petfriendly%";
 	var txt = mode_hint+store_name;
 	var dateTime = new Date();
@@ -27,7 +28,7 @@ $(document).ready(function() {
         // Clear the store name input box
         $('#storename').val('');
         $.ajax({
-            url: 'https://76cf-140-112-41-151.ngrok-free.app/petlover/callback',
+            url: settings4js.url_pet_friendly,
             type: 'POST',
             data: {txt: txt},
             dataType: 'json',
