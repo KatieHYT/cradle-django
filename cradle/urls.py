@@ -20,6 +20,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('linechatbot/', include('linechatbot.urls')) # add more if more applications are included 
+
+    # add more if more applications are included
+    path('linechatbot/', include('linechatbot.urls')), 
+    path('petlover/', include('petlover.urls')),
 ]
 urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

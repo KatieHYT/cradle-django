@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'linechatbot.apps.LinechatbotConfig',
+    'petlover.apps.PetloverConfig',
 ]
 
 MIDDLEWARE = [
