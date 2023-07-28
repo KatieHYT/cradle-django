@@ -1,6 +1,8 @@
 [submodule "linechatbot/pet_friendly"]
 	path = linechatbot/pet_friendly
 	url = https://github.com/KatieHYT/pet_friendly
+	branch = 0.1
 [submodule "petlover/pet_friendly"]
 	path = petlover/pet_friendly
 	url = https://github.com/KatieHYT/pet_friendly
+	branch = 0.1
