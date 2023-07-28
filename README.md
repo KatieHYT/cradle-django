@@ -46,9 +46,32 @@ Go into the repo.
 
 - Step-6:
   Start the service.
+
   ```
   python manage.py migrate
   # assuming you use port 200
   python manage.py runserver 0.0.0.0:200
   ```
 
+## POST example (python)
+```
+import requests
+
+# assuming your IP is: XXX.XXX.XXX.XXX
+url = "XXX.XXX.XXX.XXX/petlover/callback"
+
+data_dict = {
+    "txt": "%petfriendly%  faherty",
+}
+
+response = requests.post(url, json=data_dict)
+
+# Check the response status and handle accordingly.
+if response.status_code == 200:
+    print("POST request successful!")
+    response_data = response.json()
+    print(response_data)
+else:
+    print(f"Failed to make a POST request. Status code: {response.status_code}")
+
+```
