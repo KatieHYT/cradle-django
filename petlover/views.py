@@ -10,7 +10,7 @@ from django.conf import settings
 from .pet_friendly.pet_friendly.gpt_task_assigner import GPTTaskAssigner
 from .pet_friendly.pet_friendly.tools import get_file_contents 
 
-gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY)
+gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settings.PET_FRIENDLY_JUDGER_SRC_DICT)
 
 @csrf_exempt
 def callback(request):

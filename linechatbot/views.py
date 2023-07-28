@@ -15,7 +15,7 @@ from .pet_friendly.pet_friendly.tools import get_file_contents
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
-gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY)
+gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settings.PET_FRIENDLY_JUDGER_SRC_DICT)
 
 @csrf_exempt
 def callback(request):
