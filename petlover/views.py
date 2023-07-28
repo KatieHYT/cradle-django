@@ -3,7 +3,7 @@ import random
 import os
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
@@ -15,15 +15,25 @@ gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settin
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
+        if_stream = True
         txt = request.POST.get('txt')
         if '%petfriendly%' in txt:
-            reply = gpt_task_assigner.judge_store_pet_friendly(txt)  
+            reply = gpt_task_assigner.judge_store_pet_friendly(txt, if_stream=if_stream)  
         else:
             reply = gpt_task_assigner.chat(txt) 
         
-        
-        return JsonResponse({
-            'response': reply,
-            })
+        if if_stream:
+            def _generate_response():
+                for chunk in reply:
+                    content = chunk["choices"][0].get("delta", {}).get("content")
+                    if content is not None:
+                        yield content
+
+            # Return a streaming response to the client
+            return StreamingHttpResponse(_generate_response(), content_type='text/event-stream')
+        else:
+            return JsonResponse({
+                'response': reply,
+                })
     else:
         return HttpResponseBadRequest()
