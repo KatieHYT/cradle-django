@@ -17,11 +17,13 @@ $(document).ready(function() {
         headers: { 'X-CSRFToken': csrftoken }
     });
         // Get store information, curretly only find the most matched name among  the list
-        var txt = $('#storename').val();
-        var dateTime = new Date();
+        var store_name = $('#storename').val();
+        var mode_hint = "%petfriendly%";
+	var txt = mode_hint+store_name;
+	var dateTime = new Date();
         var time = dateTime.toLocaleTimeString();
         // Add theinput msg to the response div
-        $('#response').append('<p>('+ time + ') <i class="bi bi-person"></i>: ' + txt + '</p>');
+        $('#response').append('<p>('+ time + ') <i class="bi bi-person"></i>: ' + store_name + '</p>');
         // Clear the store name input box
         $('#storename').val('');
         $.ajax({
