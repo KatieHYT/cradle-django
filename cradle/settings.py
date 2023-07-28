@@ -53,9 +53,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
+    # local apps
     'linechatbot.apps.LinechatbotConfig',
     'petlover.apps.PetloverConfig',
+    "frontend.apps.FrontendConfig",
 ]
 
 MIDDLEWARE = [
@@ -158,3 +160,4 @@ PET_FRIENDLY_JUDGER_SRC_DICT = {
         'guide_path': GUIDE_PATH,  
         'storeid2storename_map_path': STOREID2STORENAME_MAP_PATH,
         }
+PUBLIC_IP = 'https://76cf-140-112-41-151.ngrok-free.app'
