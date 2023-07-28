@@ -1,3 +1,6 @@
 [submodule "linechatbot/pet_friendly"]
 	path = linechatbot/pet_friendly
 	url = https://github.com/KatieHYT/pet_friendly
+[submodule "pet_lover/pet_friendly"]
+	path = pet_lover/pet_friendly
+	url = https://github.com/KatieHYT/pet_friendly
