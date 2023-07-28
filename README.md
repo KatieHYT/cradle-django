@@ -24,18 +24,27 @@ Enter a docker container using the following docker image:
 - Step-2:  
 Go to your working directory and clone this repo.  
 Go into the repo.
-- Step-3:
+
+- Step-3:  
+  Edit the following 5 paths in `cradle/settings.py` to the paths on your machine.
+  - OPENAI_API_KEY
+  - RAW_REVIEW_DIR
+  - FILTER_REVIEW_DIR
+  - GUIDE_PATH
+  - STOREID2STORENAME_MAP_PATH
+
+- Step-4:
   
   ```
   pip install -r requirments.txt
   ```
-- Step-4:
+- Step-5:
   Get submodules.
   ```
   git submodule update --init --recursive
   ```
 
-- Step-5:
+- Step-6:
   Start the service.
   ```
   python manage.py migrate
