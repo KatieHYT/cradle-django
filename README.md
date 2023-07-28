@@ -1,5 +1,7 @@
 # cradle-django
 
+## Data
+Download from https://drive.google.com/drive/folders/1K6-OSrJXWz5ekSmmepAuEYi5iAVy24wa
 ## Settings
 
 - Step-1:  
