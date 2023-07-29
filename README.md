@@ -8,24 +8,23 @@ Download from https://drive.google.com/drive/folders/1K6-OSrJXWz5ekSmmepAuEYi5iA
 Enter a docker container using the following docker image:  
     `nvcr.io/nvidia/pytorch:21.03-py3`
   ```
-  # example command to start a docker container
-  # named "pet"
+  # example command to start a docker container named "my_container"
   # mapping port "200:200" (local machine : inside container)
-  # mapping volumn "/:/TOP" (local machine : inside container)
+  # mapping volumn "{your_project_folder_path}:/TOP" (local machine : inside container)
   # using image(nvcr.io/nvidia/pytorch:21.03-py3)
   
-  docker run -d -it --name pet -p 200:200 -v /:/TOP nvcr.io/nvidia/pytorch:21.03-py3
+  docker run -d -it --name my_container -p 200:200 -v /my_project_folder_path:/TOP nvcr.io/nvidia/pytorch:21.03-py3
   ```
 
   ```
   # example command to enter the container
-  docker exec -it pet bash
+  docker exec -it my_container bash
   ```
 - Step-2:  
 Go to your working directory and clone this repo.  
 Go into the repo.
 
-- Step-3:  
+- Step-3: TODO(kt): reduce setting items.  
   Edit the following information in `cradle/settings.py` to the paths on your machine.
   - OPENAI_API_KEY
   - RAW_REVIEW_DIR
