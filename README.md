@@ -24,7 +24,8 @@ Enter a docker container using the following docker image:
 Go to your working directory and clone this repo.  
 Go into the repo.
 
-- Step-3: TODO(kt): reduce setting items.  
+- Step-3: **TODO(kt): reduce setting items.**
+  
   Edit the following information in `cradle/settings.py` to the paths on your machine.
   - OPENAI_API_KEY
   - RAW_REVIEW_DIR
