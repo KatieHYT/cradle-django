@@ -24,14 +24,11 @@ Enter a docker container using the following docker image:
 Go to your working directory and clone this repo.  
 Go into the repo.
 
-- Step-3: **TODO(kt): reduce setting items.**
+- Step-3: 
   
   Edit the following information in `cradle/settings.py` to the paths on your machine.
   - OPENAI_API_KEY
-  - RAW_REVIEW_DIR
-  - FILTER_REVIEW_DIR
-  - GUIDE_PATH
-  - STOREID2STORENAME_MAP_PATH
+  - GOOGLE_REVIEW_DIR
   - PUBLIC_IP
 
 - Step-4:

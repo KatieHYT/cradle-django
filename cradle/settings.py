@@ -137,7 +137,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
 ]
 
 # Default primary key field type
@@ -145,18 +144,14 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#TODO(kt): make paths general to all users on all machines
-LINE_CHANNEL_ACCESS_TOKEN = get_file_contents('/TOP/home/kt/API_KEY/line_channel_access_token_ponpontalki')
-LINE_CHANNEL_SECRET = get_file_contents('/TOP/home/kt/API_KEY/line_channel_secret_ponpontalki')
-OPENAI_API_KEY = get_file_contents('/TOP/home/kt/API_KEY/openai')
-RAW_REVIEW_DIR = '/TOP/home/kt/DATA/cradle/google_review/raw_review/'
-FILTER_REVIEW_DIR = '/TOP/home/kt/DATA/cradle/google_review/filtered_review/'
-GUIDE_PATH = '/TOP/home/kt/DATA/cradle/google_review/sample/guide.txt'
-STOREID2STORENAME_MAP_PATH = '/TOP/home/kt/DATA/cradle/google_review/storeid2storename_map.json'
+LINE_CHANNEL_ACCESS_TOKEN = get_file_contents('./API_KEY/line_channel_access_token_ponpontalki')
+LINE_CHANNEL_SECRET = get_file_contents('./API_KEY/line_channel_secret_ponpontalki')
+OPENAI_API_KEY = get_file_contents('./API_KEY/openai')
+GOOGLE_REVIEW_DIR = './google_review/'
 PET_FRIENDLY_JUDGER_SRC_DICT = {
-        'raw_review_dir': RAW_REVIEW_DIR,
-        'filter_review_dir': FILTER_REVIEW_DIR,
-        'guide_path': GUIDE_PATH,  
-        'storeid2storename_map_path': STOREID2STORENAME_MAP_PATH,
+        'raw_review_dir': os.path.join(GOOGLE_REVIEW_DIR, 'raw_review'),
+        'filter_review_dir':  os.path.join(GOOGLE_REVIEW_DIR, 'filtered_review'), 
+        'guide_path': os.path.join(GOOGLE_REVIEW_DIR, 'sample/guide.txt'),  
+        'storeid2storename_map_path': os.path.join(GOOGLE_REVIEW_DIR, 'storeid2storename_map.json'),
         }
 PUBLIC_IP = 'https://76cf-140-112-41-151.ngrok-free.app'
