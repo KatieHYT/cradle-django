@@ -39,6 +39,7 @@ SECRET_KEY = 'django-insecure-^daf%!ko8mpn+#m8r(9qd4lh(&f7j+iigp^w%-!g*u&23ras&c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS = [
         '76cf-140-112-41-151.ngrok-free.app',
         ]
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # local apps
+    'corsheaders',
     'petlover.apps.PetloverConfig',
 ]
 
@@ -66,6 +68,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'cradle.urls'

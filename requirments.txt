@@ -1,3 +1,4 @@
 django
 openai
 tzdata
+django-cors-headers
