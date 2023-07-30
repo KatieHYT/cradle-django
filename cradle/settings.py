@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # local apps
-    'linechatbot.apps.LinechatbotConfig',
     'petlover.apps.PetloverConfig',
 ]
 
@@ -144,8 +143,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LINE_CHANNEL_ACCESS_TOKEN = get_file_contents('./API_KEY/line_channel_access_token_ponpontalki')
-LINE_CHANNEL_SECRET = get_file_contents('./API_KEY/line_channel_secret_ponpontalki')
 OPENAI_API_KEY = get_file_contents('./API_KEY/openai')
 GOOGLE_REVIEW_DIR = './google_review/'
 PET_FRIENDLY_JUDGER_SRC_DICT = {
