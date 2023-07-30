@@ -16,7 +16,8 @@ gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settin
 def callback(request):
     if request.method == 'POST':
         if_stream = True
-        txt = request.POST.get('txt')
+        post_data = json.loads(request.body.decode("utf-8"))
+        txt = post_data['txt']
         if '%petfriendly%' in txt:
             reply = gpt_task_assigner.judge_store_pet_friendly(txt, if_stream=if_stream)  
         else:
