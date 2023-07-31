@@ -53,23 +53,29 @@ Go into the repo.
 
 ## POST example (python)
 ```
+import io
 import requests
 
-# assuming your IP is: XXX.XXX.XXX.XXX
 url = "XXX.XXX.XXX.XXX/petlover/callback"
 
 data_dict = {
-    "txt": "%petfriendly%  faherty",
+    "txt": "%petfriendly%  peak design",
 }
+def get_stream():
+    s = requests.Session()
 
-response = requests.post(url, data=data_dict)
+    #with s.post(url, json=data_dict, stream=True, data=io.BytesIO(b'many many bytes')) as resp:
+    with s.post(url, json=data_dict, stream=True) as resp:
+        for line in resp.iter_lines():
+            if line:
+                print(line)
 
-# Check the response status and handle accordingly.
-if response.status_code == 200:
-    print("POST request successful!")
-    response_data = response.json()
-    print(response_data)
-else:
-    print(f"Failed to make a POST request. Status code: {response.status_code}")
+get_stream()
+```
 
+## POST example (bash)
+```
+curl -X POST XXX.XXX.XXX.XXX/petlover/callback \
+--header "Content-Type: application/json" \
+--data '{"txt": "%petfriendly%  peak design"}'
 ```
