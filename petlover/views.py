@@ -25,11 +25,27 @@ def callback(request):
         
         if if_stream:
             def _generate_response():
-                for chunk in reply:
-                    content = chunk["choices"][0].get("delta", {}).get("content")
-                    if content is not None:
-                        yield content
+                """
+                This is a funny way (but the only way so far) to make it stream-like from client side.
+                We must return meaningless \n in an interweave manner; 
+                otherwise it will not pop up the next thing until it get to the end.
+                
+                """
+                cnt = 0
+                while True:
+                    try:
+                        if cnt % 2 ==0:
+                            yield "\n"
+                        else:
+                            chunk = next(reply)
+                            content = chunk["choices"][0].get("delta", {}).get("content")
+                            if content is not None:
+                                print(content)
+                                yield content
 
+                    except StopIteration:
+                        break 
+                    cnt+=1
             # Return a streaming response to the client
             return StreamingHttpResponse(_generate_response(), content_type='text/event-stream')
         else:
