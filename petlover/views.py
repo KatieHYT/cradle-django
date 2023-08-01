@@ -25,7 +25,7 @@ def callback(request):
             place_name, reply = gpt_task_assigner.judge_store_pet_friendly(txt, if_stream=if_stream)  
         else:
             reply = gpt_task_assigner.chat(txt) 
-        
+        print("Gpt streaming...") 
         if if_stream:
             def _generate_response():
                 """
@@ -46,7 +46,7 @@ def callback(request):
                             chunk = next(reply)
                             content = chunk["choices"][0].get("delta", {}).get("content")
                             if content is not None:
-                                print(content)
+                                #print(content)
                                 yield content
 
                     except StopIteration:
