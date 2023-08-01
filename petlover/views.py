@@ -19,6 +19,7 @@ def callback(request):
         post_data = json.loads(request.body.decode("utf-8"))
         txt = post_data['txt']
         if '%petfriendly%' in txt:
+            txt = txt.split("friendly%")[-1]
             reply = gpt_task_assigner.judge_store_pet_friendly(txt, if_stream=if_stream)  
         else:
             reply = gpt_task_assigner.chat(txt) 

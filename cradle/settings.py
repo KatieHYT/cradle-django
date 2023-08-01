@@ -148,12 +148,14 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#TODO(hyt): pass key or key path? which one is safer?
 OPENAI_API_KEY = get_file_contents('./API_KEY/openai')
+APIFY_API_KEY_PATH = './API_KEY/apify'
 GOOGLE_REVIEW_DIR = './google_review/'
 PET_FRIENDLY_JUDGER_SRC_DICT = {
         'raw_review_dir': os.path.join(GOOGLE_REVIEW_DIR, 'raw_review'),
         'filter_review_dir':  os.path.join(GOOGLE_REVIEW_DIR, 'filtered_review'), 
         'guide_path': os.path.join(GOOGLE_REVIEW_DIR, 'sample/guide.txt'),  
         'storeid2storename_map_path': os.path.join(GOOGLE_REVIEW_DIR, 'storeid2storename_map.json'),
+        'apify_api_key_path':APIFY_API_KEY_PATH,
         }
-PUBLIC_IP = 'https://76cf-140-112-41-151.ngrok-free.app'
