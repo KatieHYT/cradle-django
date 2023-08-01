@@ -18,9 +18,11 @@ def callback(request):
         if_stream = True
         post_data = json.loads(request.body.decode("utf-8"))
         txt = post_data['txt']
+        print(f'User posting: {txt}')
         if '%petfriendly%' in txt:
             txt = txt.split("friendly%")[-1]
-            reply = gpt_task_assigner.judge_store_pet_friendly(txt, if_stream=if_stream)  
+            print("Judging pet-friendly...")
+            place_name, reply = gpt_task_assigner.judge_store_pet_friendly(txt, if_stream=if_stream)  
         else:
             reply = gpt_task_assigner.chat(txt) 
         
@@ -36,7 +38,10 @@ def callback(request):
                 while True:
                     try:
                         if cnt % 2 ==0:
-                            yield "\n"
+                            if cnt == 0:
+                                yield f"Is {place_name} pet-friendly?"
+                            else:
+                                yield "\n"
                         else:
                             chunk = next(reply)
                             content = chunk["choices"][0].get("delta", {}).get("content")
