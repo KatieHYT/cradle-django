@@ -153,6 +153,7 @@ OPENAI_API_KEY = get_file_contents('./API_KEY/openai')
 APIFY_API_KEY_PATH = './API_KEY/apify'
 GOOGLE_REVIEW_DIR = './google_review/'
 LAST_UPDATE_DT_DF_PATH = './last_update_dt_df.csv'
+URL2LATLNG_PATH = '../cradle_database/url2latlng.json'
 PET_FRIENDLY_JUDGER_SRC_DICT = {
         'raw_review_dir': os.path.join(GOOGLE_REVIEW_DIR, 'raw_review'),
         'filter_review_dir':  os.path.join(GOOGLE_REVIEW_DIR, 'filtered_review'), 
@@ -160,4 +161,5 @@ PET_FRIENDLY_JUDGER_SRC_DICT = {
         'storeid2storename_map_path': os.path.join(GOOGLE_REVIEW_DIR, 'storeid2storename_map.json'),
         'apify_api_key_path':APIFY_API_KEY_PATH,
         'last_update_dt_df_path': LAST_UPDATE_DT_DF_PATH,
+        'url2latlng_path': URL2LATLNG_PATH,
         }
