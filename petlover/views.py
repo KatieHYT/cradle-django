@@ -2,6 +2,7 @@ import json
 import random
 import os
 import openai
+import pandas as pd
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, StreamingHttpResponse
@@ -9,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 from .pet_friendly.src.pet_friendly_judger import PetFriendlyJudger
-from .pet_friendly.src.tools import get_file_contents 
+from .pet_friendly.src.tools import get_file_contents, read_json
 
 openai.api_key = settings.OPENAI_API_KEY
 pfj = PetFriendlyJudger(settings.PET_FRIENDLY_JUDGER_SRC_DICT)
@@ -40,12 +41,27 @@ def _generate_response(place_name, reply):
             break 
         cnt+=1
 
-def check_is_cradle_confirm():
-    #TODO(kt): re-load pandas every time for now 
-    #cradle_db = pd.read_csv(settings.cradle_database_path)
+def check_is_cradle_confirm(url):
+    url2latlng = read_json(settings.URL2LATLNG_PATH)
+    db = pd.read_csv(settings.CRADLE_DB_PATH)
+    cradle_confirm = None
+    if not url in url2latlng.keys():
+        return cradle_confirm
+    else:
+        latlng = url2latlng[url]
+    
+        if latlng in list(db['latlng']):
+            _row = db[db['latlng']==latlng]
+            cradle_confirm = {
+                "manager_confirm_date": _row['manager_confirm_date'].item(),
+                "manager_name": _row['manager_name'].item(),
+                "service_dog": bool( _row['service_dog'].item()),
+                "non_service_dog": bool( _row['non_service_dog'].item()),
+                "dog_treat": bool( _row['dog_treat'].item()),
+                "dog_water": bool( _row['dog_water'].item()),
+                    }
 
-    # url 2 lat lng
-    return False
+        return cradle_confirm
 
 @csrf_exempt
 def callback(request):
@@ -55,23 +71,21 @@ def callback(request):
         api_input = post_data['api_input']
         print(f'Front-end posting: {api_input}')
         if '%petfriendly%' in api_input:
-            place_id = api_input.split("friendly%")[-1]
+            place_info = api_input.split("friendly%")[-1]
             print("Judging pet-friendly...")
+
+            if ('/maps/search' in place_info) or ('/maps/place' in place_info):
+                url = place_info
+            else:
+                url = f'https://www.google.com/maps/place/?q=place_id:{place_info}'
             
-            if check_is_cradle_confirm():
-                reply = {
-                        "confirm_date": "2023-08-10",
-                        "manager": "KT",
-                        "service_dog": True,
-                        "non_service_dog": True,
-                        "dog_treat": True,
-                        "dog_water": False,
-                        }
+            cradle_confirm = check_is_cradle_confirm(url)
+            if cradle_confirm:
                 return JsonResponse({
-                    'response': reply,
+                    'response': cradle_confirm,
                     })
             else:
-                place_name, reply = pfj.judge_store(place_id, if_stream=if_stream) 
+                place_name, reply = pfj.judge_store(url, if_stream=if_stream) 
                 # Return a streaming response to the client
                 print("Gpt streaming...") 
                 return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
