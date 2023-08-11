@@ -45,7 +45,7 @@ def check_is_cradle_confirm():
     #cradle_db = pd.read_csv(settings.cradle_database_path)
 
     # url 2 lat lng
-    return True
+    return False
 
 @csrf_exempt
 def callback(request):
@@ -77,6 +77,6 @@ def callback(request):
                 return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
 
         else:
-            reply = gpt_task_assigner.chat(txt) 
+            assert 1==0, "Not implemented"
     else:
         return HttpResponseBadRequest()
