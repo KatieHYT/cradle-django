@@ -11,12 +11,8 @@ from django.conf import settings
 from .pet_friendly.src.pet_friendly_judger import PetFriendlyJudger
 from .pet_friendly.src.tools import get_file_contents 
 
-#gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settings.PET_FRIENDLY_JUDGER_SRC_DICT)
-
-
 openai.api_key = settings.OPENAI_API_KEY
 pfj = PetFriendlyJudger(settings.PET_FRIENDLY_JUDGER_SRC_DICT)
-
 
 def _generate_response(place_name, reply):
     """
