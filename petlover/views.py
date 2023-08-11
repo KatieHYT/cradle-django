@@ -1,16 +1,22 @@
 import json
 import random
 import os
+import openai
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
-from .pet_friendly.src.gpt_task_assigner import GPTTaskAssigner
+from .pet_friendly.src.pet_friendly_judger import PetFriendlyJudger
 from .pet_friendly.src.tools import get_file_contents 
 
-gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settings.PET_FRIENDLY_JUDGER_SRC_DICT)
+#gpt_task_assigner = GPTTaskAssigner(settings.OPENAI_API_KEY, pfj_src_dict=settings.PET_FRIENDLY_JUDGER_SRC_DICT)
+
+
+openai.api_key = settings.OPENAI_API_KEY
+pfj = PetFriendlyJudger(settings.PET_FRIENDLY_JUDGER_SRC_DICT)
+
 
 def _generate_response(place_name, reply):
     """
@@ -43,7 +49,7 @@ def check_is_cradle_confirm():
     #cradle_db = pd.read_csv(settings.cradle_database_path)
 
     # url 2 lat lng
-    return False
+    return True
 
 @csrf_exempt
 def callback(request):
@@ -69,7 +75,7 @@ def callback(request):
                     'response': reply,
                     })
             else:
-                place_name, reply = gpt_task_assigner.judge_store_pet_friendly(place_id, if_stream=if_stream) 
+                place_name, reply = pfj.judge_store(place_id, if_stream=if_stream) 
                 # Return a streaming response to the client
                 print("Gpt streaming...") 
                 return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
