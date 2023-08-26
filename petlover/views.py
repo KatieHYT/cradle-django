@@ -12,7 +12,7 @@ from django.conf import settings
 from .pet_friendly.src.pet_friendly_judger import PetFriendlyJudger
 from .pet_friendly.src.tools import get_file_contents, read_json
 
-openai.api_key = settings.OPENAI_API_KEY
+openai.api_key = os.environ["OPENAI_API_KEY"]
 pfj = PetFriendlyJudger(settings.PET_FRIENDLY_JUDGER_SRC_DICT)
 
 def _generate_response(place_name, reply):
@@ -42,8 +42,8 @@ def _generate_response(place_name, reply):
         cnt+=1
 
 def check_is_cradle_confirm(url):
-    url2latlng = read_json(settings.URL2LATLNG_PATH)
-    db = pd.read_csv(settings.CRADLE_DB_PATH)
+    url2latlng = read_json(os.environ["URL2LATLNG_PATH"])
+    db = pd.read_csv(os.environ["CRADLE_DB_PATH"])
     cradle_confirm = None
     if not url in url2latlng.keys():
         return cradle_confirm
