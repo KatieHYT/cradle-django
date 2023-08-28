@@ -39,8 +39,9 @@ SECRET_KEY = 'django-insecure-^daf%!ko8mpn+#m8r(9qd4lh(&f7j+iigp^w%-!g*u&23ras&c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS = [
-        '76cf-140-112-41-151.ngrok-free.app',
+        '*',
         ]
 
 
@@ -53,8 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'linechatbot.apps.LinechatbotConfig',
+    
+    # local apps
+    'corsheaders',
     'petlover.apps.PetloverConfig',
 ]
 
@@ -66,6 +68,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'cradle.urls'
@@ -136,7 +141,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
 ]
 
 # Default primary key field type
@@ -144,7 +148,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#TODO(kt): 
-LINE_CHANNEL_ACCESS_TOKEN = get_file_contents('/TOP/home/kt/API_KEY/line_channel_access_token_ponpontalki')
-LINE_CHANNEL_SECRET = get_file_contents('/TOP/home/kt/API_KEY/line_channel_secret_ponpontalki')
-OPENAI_API_KEY = get_file_contents('/TOP/home/kt/API_KEY/openai')
+PET_FRIENDLY_JUDGER_SRC_DICT = {
+        'raw_review_dir': os.path.join(os.environ["GOOGLE_REVIEW_DIR"], 'raw_review'),
+        'filter_review_dir':  os.path.join(os.environ["GOOGLE_REVIEW_DIR"], 'filtered_review'), 
+        'guide_path': os.path.join(os.environ["GOOGLE_REVIEW_DIR"], 'sample/guide.txt'),  
+        'storeid2storename_map_path': os.path.join(os.environ["GOOGLE_REVIEW_DIR"], 'storeid2storename_map.json'),
+        'apify_api_key_path': os.environ["APIFY_API_KEY_PATH"],
+        'last_update_dt_df_path': os.environ["LAST_UPDATE_DT_DF_PATH"],
+        'url2latlng_path': os.environ["URL2LATLNG_PATH"],
+        'freeze_mins': os.environ["FREEZE_MINS"], 
+        }

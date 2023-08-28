@@ -1,7 +1,9 @@
 # Created by https://www.gitignore.io
 
-static/
 */migrations/
+google_review/
+last_update_dt_df.csv
+API_KEY/
 
 ### OSX ###
 .DS_Store
