@@ -3,6 +3,7 @@ import random
 import os
 import openai
 import pandas as pd
+import datetime
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, StreamingHttpResponse
@@ -63,6 +64,15 @@ def check_is_cradle_confirm(url):
 
         return cradle_confirm
 
+def save_use_record(file_content, save_dir='./use_record'):
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d-%H-%M-%S")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    save_path = os.path.join(save_dir, f"{formatted_datetime}.txt")
+    with open(save_path, "w") as file:
+        file.write(file_content)
+
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
@@ -78,7 +88,8 @@ def callback(request):
                 url = place_info
             else:
                 url = f'https://www.google.com/maps/place/?q=place_id:{place_info}'
-            
+            save_use_record(url) 
+
             cradle_confirm = check_is_cradle_confirm(url)
             if cradle_confirm:
                 return JsonResponse({
