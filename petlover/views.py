@@ -16,7 +16,7 @@ from .pet_friendly.src.tools import get_file_contents, read_json
 openai.api_key = os.environ["OPENAI_API_KEY"]
 pfj = PetFriendlyJudger(settings.PET_FRIENDLY_JUDGER_SRC_DICT)
 
-def _generate_response(place_name, reply):
+def _generate_response(place_name, reply, last_review_path):
     """
     This is a funny way (but the only way so far) to make it stream-like from client side.
     We must return meaningless \n in an interweave manner; 
@@ -24,11 +24,14 @@ def _generate_response(place_name, reply):
     
     """
     cnt = 0
+    data_to_write=""
     while True:
         try:
             if cnt % 2 ==0:
                 if cnt == 0:
-                    yield f"Is {place_name} pet-friendly?"
+                    content = f"Is {place_name} pet-friendly?"
+                    data_to_write += content + " "
+                    yield content
                 else:
                     yield "\n"
             else:
@@ -36,9 +39,17 @@ def _generate_response(place_name, reply):
                 content = chunk["choices"][0].get("delta", {}).get("content")
                 if content is not None:
                     #print(content)
+                    data_to_write += content + " "
                     yield content
 
         except StopIteration:
+            # Open the file in write mode ('w')
+            with open(last_review_path, 'w') as file:
+                # Write the data to the file
+                file.write(data_to_write)
+            
+            # Print a message to indicate that the file has been written
+            print(f'Data has been written to {file_path}')
             break 
         cnt+=1
 
@@ -103,32 +114,55 @@ def callback(request):
             #    return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
 
             place_name, reply = pfj.judge_store(url, if_stream=if_stream) 
+            url2latlng = read_json(os.environ["URL2LATLNG_PATH"])
+            latlng = url2latlng[url]
+            last_review_path = os.path.join(os.environ["LAST_SUMMARY_DIR"], latlng+'.txt')
             # Return a streaming response to the client
             print("Gpt streaming...") 
-            return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
+            return StreamingHttpResponse(_generate_response(place_name, reply, last_review_path), content_type='text/event-stream')
         elif '%checkcall' in api_input:
             place_id = api_input.split("call%")[-1]
-            print("Checking call history...")
-            
+            url = f'https://www.google.com/maps/place/?q=place_id:{place_id}'
+            print(f"Checking call history...{place_id}")
+
+            url2latlng = read_json(os.environ["URL2LATLNG_PATH"])
+            call_conversation = None
+            if url in url2latlng.keys():
+                latlng = url2latlng[url]
+                print(latlng)
+                last_list = os.listdir(os.environ["LAST_CALL_DIR"]) 
+                if latlng+'.txt' in last_list:
+                    path = os.path.join(os.environ["LAST_CALL_DIR"], latlng+'.txt')
+                    # Open the file in read mode ('r')
+                    with open(path, 'r') as file:
+                        # Read the entire file content into a variable
+                        call_conversation = file.read()
             #call_conversation =  "\
             #        Last call time: 2023-09-08 20:21:03\n\
             #        A: 123\n\
             #        B: 456\n\
             #        A: 333\n"
-            call_conversation = None
             return JsonResponse({
                 'call_conversation': call_conversation,
                 })
 
         elif '%checkreview' in api_input:
             place_id = api_input.split("review%")[-1]
-            print("Checking summary history...")
+            url = f'https://www.google.com/maps/place/?q=place_id:{place_id}'
+            print(f"Checking summary history...{place_id}")
             
-            #review_summary =  "\
-            #        Last summary time: 2023-09-08 21:00:03\n\
-            #        ABDDDDDDDDDD\n\
-            #        ewjiejwijeiwjeiwjeijwijei\n"
-            review_summary = None 
+            url2latlng = read_json(os.environ["URL2LATLNG_PATH"])
+            review_summary = None
+            if url in url2latlng.keys():
+                latlng = url2latlng[url]
+                last_list = os.listdir(os.environ["LAST_SUMMARY_DIR"]) 
+                if latlng+'.txt' in last_list:
+                    path = os.path.join(os.environ["LAST_SUMMARY_DIR"], latlng+'.txt')
+                    # Open the file in read mode ('r')
+                    with open(path, 'r') as file:
+                        # Read the entire file content into a variable
+                        review_summary = file.read()
+
             return JsonResponse({
                 'review_summary': review_summary,
                 })
