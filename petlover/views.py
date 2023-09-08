@@ -90,7 +90,7 @@ def callback(request):
         if_stream = True
         post_data = json.loads(request.body.decode("utf-8"))
         api_input = post_data['api_input']
-        print(f'Front-end posting: {api_input}')
+        print(f'Front-end posting: {post_data}')
         if '%petfriendly%' in api_input:
             place_info = api_input.split("friendly%")[-1]
             print("Judging pet-friendly...")
@@ -157,6 +157,28 @@ def callback(request):
 
             return JsonResponse({
                 'review_summary': review_summary,
+                })
+
+        elif '%login%' in api_input:
+            username = post_data['username']
+            has_info = None
+            user_dict = {
+                "nomad_bento": {
+                    "n_place_collect": 123,
+                    "latlng": ["xxx", "yyy", "zzz"],
+                    "place_name": ["name1", "name2", "name3"],
+                    },
+                "ktkkkk": { 
+                    "n_place_collect": 443,
+                    "latlng": ["aa", "b", "ccc"],
+                    "place_name": ["na1", "me2", "e3"],
+                    }
+                }
+            if username in user_dict.keys():
+                has_info = True
+
+            return JsonResponse({
+                'has_info': has_info,
                 })
 
         else:
