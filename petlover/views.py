@@ -90,16 +90,22 @@ def callback(request):
                 url = f'https://www.google.com/maps/place/?q=place_id:{place_info}'
             save_use_record(url) 
 
-            cradle_confirm = check_is_cradle_confirm(url)
-            if cradle_confirm:
-                return JsonResponse({
-                    'response': cradle_confirm,
-                    })
-            else:
-                place_name, reply = pfj.judge_store(url, if_stream=if_stream) 
-                # Return a streaming response to the client
-                print("Gpt streaming...") 
-                return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
+            #cradle_confirm = check_is_cradle_confirm(url)
+            ##TODO(yt)
+            #if cradle_confirm:
+            #    return JsonResponse({
+            #        'response': cradle_confirm,
+            #        })
+            #else:
+            #    place_name, reply = pfj.judge_store(url, if_stream=if_stream) 
+            #    # Return a streaming response to the client
+            #    print("Gpt streaming...") 
+            #    return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
+
+            place_name, reply = pfj.judge_store(url, if_stream=if_stream) 
+            # Return a streaming response to the client
+            print("Gpt streaming...") 
+            return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
 
         else:
             assert 1==0, "Not implemented"
