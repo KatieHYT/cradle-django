@@ -106,6 +106,32 @@ def callback(request):
             # Return a streaming response to the client
             print("Gpt streaming...") 
             return StreamingHttpResponse(_generate_response(place_name, reply), content_type='text/event-stream')
+        elif '%checkcall' in api_input:
+            place_id = api_input.split("call%")[-1]
+            print("Checking call history...")
+            
+            #call_conversation =  "\
+            #        Last call time: 2023-09-08 20:21:03\n\
+            #        A: 123\n\
+            #        B: 456\n\
+            #        A: 333\n"
+            call_conversation = None
+            return JsonResponse({
+                'call_conversation': call_conversation,
+                })
+
+        elif '%checkreview' in api_input:
+            place_id = api_input.split("review%")[-1]
+            print("Checking summary history...")
+            
+            #review_summary =  "\
+            #        Last summary time: 2023-09-08 21:00:03\n\
+            #        ABDDDDDDDDDD\n\
+            #        ewjiejwijeiwjeiwjeijwijei\n"
+            review_summary = None 
+            return JsonResponse({
+                'review_summary': review_summary,
+                })
 
         else:
             assert 1==0, "Not implemented"
