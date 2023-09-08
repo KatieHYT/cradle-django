@@ -120,30 +120,22 @@ def callback(request):
             # Return a streaming response to the client
             print("Gpt streaming...") 
             return StreamingHttpResponse(_generate_response(place_name, reply, last_review_path), content_type='text/event-stream')
-        elif '%checkcall' in api_input:
-            place_id = api_input.split("call%")[-1]
+        elif '%callinfo' in api_input:
+            place_id = api_input.split("callinfo%")[-1]
             url = f'https://www.google.com/maps/place/?q=place_id:{place_id}'
             print(f"Checking call history...{place_id}")
-
+            
+            latlng=None
             url2latlng = read_json(os.environ["URL2LATLNG_PATH"])
-            call_conversation = None
             if url in url2latlng.keys():
                 latlng = url2latlng[url]
-                print(latlng)
-                last_list = os.listdir(os.environ["LAST_CALL_DIR"]) 
-                if latlng+'.txt' in last_list:
-                    path = os.path.join(os.environ["LAST_CALL_DIR"], latlng+'.txt')
-                    # Open the file in read mode ('r')
-                    with open(path, 'r') as file:
-                        # Read the entire file content into a variable
-                        call_conversation = file.read()
-            #call_conversation =  "\
-            #        Last call time: 2023-09-08 20:21:03\n\
-            #        A: 123\n\
-            #        B: 456\n\
-            #        A: 333\n"
+
+            #TODO: all latlng map to my phone number curretly
+            PHONE_NUMBER="4156054429"
+
             return JsonResponse({
-                'call_conversation': call_conversation,
+                'latlng': latlng,
+                'phone_number': PHONE_NUMBER, 
                 })
 
         elif '%checkreview' in api_input:
