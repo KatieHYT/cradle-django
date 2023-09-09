@@ -208,6 +208,30 @@ def callback(request):
                 'register_status': register_status,
                 })
 
+        elif '%leaderboard%' in api_input:
+            register_status = None
+            user_dict = {
+                "nomad_bento": {
+                    "n_place_collect": 123,
+                    "latlng": ["xxx", "yyy", "zzz"],
+                    "place_name": ["name1", "name2", "name3"],
+                    },
+                "kt": { 
+                    "n_place_collect": 443,
+                    "latlng": ["aa", "b", "ccc"],
+                    "place_name": ["na1", "me2", "e3"],
+                    }
+                }
+            if username in user_dict.keys():
+                register_status = "username_repeated"
+            else:
+                user_dict[username] = "anything"
+                register_status = "successfully_registered"
+
+
+            return JsonResponse({
+                'register_status': register_status,
+                })
         else:
             assert 1==0, "Not implemented"
     else:
