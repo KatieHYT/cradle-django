@@ -49,7 +49,7 @@ def _generate_response(place_name, reply, last_review_path):
                 file.write(data_to_write)
             
             # Print a message to indicate that the file has been written
-            print(f'Data has been written to {file_path}')
+            print(f'Data has been written to {last_review_path}')
             break 
         cnt+=1
 
