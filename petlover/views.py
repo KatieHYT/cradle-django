@@ -161,24 +161,51 @@ def callback(request):
 
         elif '%login%' in api_input:
             username = post_data['username']
-            has_info = None
             user_dict = {
                 "nomad_bento": {
                     "n_place_collect": 123,
                     "latlng": ["xxx", "yyy", "zzz"],
                     "place_name": ["name1", "name2", "name3"],
                     },
-                "ktkkkk": { 
+                "kt": { 
                     "n_place_collect": 443,
                     "latlng": ["aa", "b", "ccc"],
                     "place_name": ["na1", "me2", "e3"],
                     }
                 }
             if username in user_dict.keys():
-                has_info = True
+                login_status = "username_exist"
+            else:
+                login_status = "username_not_exist"
 
             return JsonResponse({
-                'has_info': has_info,
+                'login_status': login_status,
+                })
+
+        elif '%register%' in api_input:
+            username = post_data['username']
+            register_status = None
+            user_dict = {
+                "nomad_bento": {
+                    "n_place_collect": 123,
+                    "latlng": ["xxx", "yyy", "zzz"],
+                    "place_name": ["name1", "name2", "name3"],
+                    },
+                "kt": { 
+                    "n_place_collect": 443,
+                    "latlng": ["aa", "b", "ccc"],
+                    "place_name": ["na1", "me2", "e3"],
+                    }
+                }
+            if username in user_dict.keys():
+                register_status = "username_repeated"
+            else:
+                user_dict[username] = "anything"
+                register_status = "successfully_registered"
+
+
+            return JsonResponse({
+                'register_status': register_status,
                 })
 
         else:
