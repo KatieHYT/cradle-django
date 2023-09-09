@@ -156,5 +156,5 @@ PET_FRIENDLY_JUDGER_SRC_DICT = {
         'apify_api_key_path': os.environ["APIFY_API_KEY_PATH"],
         'last_update_dt_df_path': os.environ["LAST_UPDATE_DT_DF_PATH"],
         'url2latlng_path': os.environ["URL2LATLNG_PATH"],
-        'freeze_mins': os.environ["FREEZE_MINS"], 
+        'freeze_mins': int(os.environ["FREEZE_MINS"]), 
         }
