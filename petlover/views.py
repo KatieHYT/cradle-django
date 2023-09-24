@@ -4,6 +4,7 @@ import os
 import openai
 import pandas as pd
 import datetime
+import uuid
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, StreamingHttpResponse
@@ -157,6 +158,22 @@ def callback(request):
 
             return JsonResponse({
                 'review_summary': review_summary,
+                })
+
+        elif '%collect_contact%' in api_input:
+            contact_info = post_data['username']
+            save_dir = "./contact_info"
+            if not os.path.exists(save_dir):
+                os.makedirs(save_dir)
+            random_uuid = uuid.uuid4()
+            save_path = os.path.join(save_dir, str(random_uuid)+".txt")
+             
+            with open(save_path, 'w') as file:
+                # Write the text to the file
+                file.write(contact_info)
+            print(save_path)
+            return JsonResponse({
+                'login_status': 'xxx',
                 })
 
         elif '%login%' in api_input:
